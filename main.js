@@ -32,11 +32,26 @@ function rangeSlider(track, thumb, progress) {
 
 		// Align the thumb more with the cursor
 		const halfOfThumb = thumb.offsetHeight / 2;
-		const percentagePositionToChange =
-			-(e.clientY - sliderDisFromTopOfPage) + track.offsetHeight;
 
-		const bottomDistance = (trackLength * percentagePositionToChange) / 100;
-		console.log('changeeee', percentagePositionToChange, bottomDistance);
+		// Cursors pixel position on track
+		const cursorPosition =
+			-(e.clientY || e.touches[0].clientY - sliderDisFromTopOfPage) +
+			track.offsetHeight -
+			thumb.offsetHeight / 2;
+
+		console.log('cursor-position', cursorPosition);
+		console.log(e, 'clientY');
+
+		let thumbPosition =
+			-(thumb.getBoundingClientRect().top - sliderDisFromTopOfPage) +
+			track.offsetHeight;
+
+		let percentagePositionToChange =
+			((thumbPosition - thumb.offsetHeight) * 100) /
+			(track.offsetHeight - thumb.offsetHeight);
+
+		//console.log(percentageMoved, 'thumb');
+		const bottomDistance = cursorPosition;
 
 		let finalBottomDistance;
 		let finalPercentage;
@@ -45,12 +60,14 @@ function rangeSlider(track, thumb, progress) {
 		if (bottomDistance <= 0) {
 			finalBottomDistance = 0;
 			finalPercentage = 0;
-		} else if (bottomDistance >= track.offsetHeight) {
+		} else if (bottomDistance >= track.offsetHeight - thumb.offsetHeight) {
 			finalBottomDistance = trackLength;
 			finalPercentage = 100;
 		} else {
 			if (bottomDistance > 0 && bottomDistance <= trackLength) {
 				finalBottomDistance = bottomDistance;
+			} else {
+				finalBottomDistance = 100;
 			}
 			const p = percentagePositionToChange;
 			if (p <= 100 && p >= 0) {
@@ -60,15 +77,29 @@ function rangeSlider(track, thumb, progress) {
 			}
 		}
 		thumb.style.bottom = `${finalBottomDistance}px`;
-		progress.style.height = `${finalPercentage}%`;
 
-		this.percentage = finalPercentage;
+		thumbPosition =
+			-(thumb.getBoundingClientRect().top - sliderDisFromTopOfPage) +
+			track.offsetHeight;
+
+		percentagePositionToChange =
+			((thumbPosition - thumb.offsetHeight) * 100) /
+			(track.offsetHeight - thumb.offsetHeight);
+
+		progress.style.height = `${finalBottomDistance + halfOfThumb}px`;
+
+		this.percentage = percentagePositionToChange;
 
 		window.dispatchEvent(event);
 	};
 
 	thumb.addEventListener('mousedown', (e) => {
 		document.onmousemove = drag;
+	});
+
+	thumb.addEventListener('touchstart', (e) => {
+		document.ontouchmove = drag;
+		console.log('started');
 	});
 
 	document.addEventListener('mouseup', () => {
@@ -84,5 +115,8 @@ function rangeSlider(track, thumb, progress) {
 const rangeSlider1 = new rangeSlider(track, thumb, progress);
 
 window.addEventListener('slider', (e) => {
-	document.getElementById('percentage').textContent = rangeSlider1.percentage;
+	document.getElementById('percentage').textContent = parseInt(
+		rangeSlider1.percentage,
+		10
+	);
 });
