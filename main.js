@@ -9,13 +9,6 @@ function rangeSlider(track, thumb, progress) {
 	/* Thumb accounted for in track length */
 	const trackLength = track.offsetHeight - thumb.offsetHeight;
 
-	// const realTrackRange = trackLength - thumb.offsetHeight;
-
-	// const thumbMiddle = thumb.offsetHeight / 2;
-
-	// const thumbsCenterPosition =
-	// debugger;
-
 	const drag = (e) => {
 		const scrollDistance =
 			window.pageYOffset ||
