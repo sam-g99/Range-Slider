@@ -18,14 +18,12 @@ function rangeSlider(track, thumb, progress) {
 			).scrollTop;
 
 		const sliderDisFromTopOfPage =
-			window.pageYOffset + track.getBoundingClientRect().top;
-
-		const thumbDisFromTrackBottom = trackLength - thumb.offsetTop;
+			window.pageYOffset +
+			track.getBoundingClientRect().top -
+			scrollDistance;
 
 		const percentagePositionToChange =
-			-(e.clientY - sliderDisFromTopOfPage) +
-			track.offsetHeight +
-			scrollDistance;
+			-(e.clientY - sliderDisFromTopOfPage) + track.offsetHeight;
 
 		// Align the thumb more with the cursor
 		const halfOfThumb = thumb.offsetHeight / 2;
