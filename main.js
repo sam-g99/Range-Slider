@@ -110,6 +110,11 @@ function rangeSlider(track, thumb, progress) {
 		drag(e);
 		document.onmousemove = drag;
 	});
+
+	track.addEventListener('touchstart', (e) => {
+		drag(e);
+		document.onmousemove = drag;
+	});
 }
 
 const rangeSlider1 = new rangeSlider(track, thumb, progress);
