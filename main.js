@@ -36,6 +36,7 @@ function rangeSlider(track, thumb, progress) {
 
 		let finalBottomDistance;
 		let finalPercentage;
+
 		// Make sure it doesn't go off track
 		if (bottomDistance <= 0) {
 			finalBottomDistance = 0;
@@ -53,7 +54,6 @@ function rangeSlider(track, thumb, progress) {
 		thumb.style.bottom = `${finalBottomDistance}px`;
 		progress.style.height = `${finalPercentage}px`;
 
-		// trackLength is the max distance the thumb can go
 		this.percentage = finalPercentage;
 	};
 
