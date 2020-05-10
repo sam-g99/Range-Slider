@@ -34,8 +34,17 @@ function rangeSlider(track, thumb, progress) {
 		const halfOfThumb = thumb.offsetHeight / 2;
 
 		// Cursors pixel position on track
+		let clientPosY;
+
+		console.log(e.clientY);
+		if (e.clientY !== undefined) {
+			clientPosY = e.clientY;
+		} else {
+			clientPosY = e.touches[0].clientY;
+		}
+		console.log(clientPosY);
 		const cursorPosition =
-			-(e.clientY || e.touches[0].clientY - sliderDisFromTopOfPage) +
+			-(clientPosY - sliderDisFromTopOfPage) +
 			track.offsetHeight -
 			thumb.offsetHeight / 2;
 
