@@ -113,7 +113,7 @@ function rangeSlider(track, thumb, progress) {
 
 	track.addEventListener('touchstart', (e) => {
 		drag(e);
-		document.onmousemove = drag;
+		document.ontouchmove = drag;
 	});
 }
 
