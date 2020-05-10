@@ -36,20 +36,16 @@ function rangeSlider(track, thumb, progress) {
 		// Cursors pixel position on track
 		let clientPosY;
 
-		console.log(e.clientY);
 		if (e.clientY !== undefined) {
 			clientPosY = e.clientY;
 		} else {
 			clientPosY = e.touches[0].clientY;
 		}
-		console.log(clientPosY);
+
 		const cursorPosition =
 			-(clientPosY - sliderDisFromTopOfPage) +
 			track.offsetHeight -
 			thumb.offsetHeight / 2;
-
-		console.log('cursor-position', cursorPosition);
-		console.log(e, 'clientY');
 
 		let thumbPosition =
 			-(thumb.getBoundingClientRect().top - sliderDisFromTopOfPage) +
@@ -59,7 +55,6 @@ function rangeSlider(track, thumb, progress) {
 			((thumbPosition - thumb.offsetHeight) * 100) /
 			(track.offsetHeight - thumb.offsetHeight);
 
-		//console.log(percentageMoved, 'thumb');
 		const bottomDistance = cursorPosition;
 
 		let finalBottomDistance;
@@ -108,7 +103,6 @@ function rangeSlider(track, thumb, progress) {
 
 	thumb.addEventListener('touchstart', (e) => {
 		document.ontouchmove = drag;
-		console.log('started');
 	});
 
 	document.addEventListener('mouseup', () => {
