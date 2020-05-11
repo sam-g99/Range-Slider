@@ -8,7 +8,7 @@ const stringToFragment = (html) =>
 	document.createRange().createContextualFragment(html);
 
 const sliderHtml = `
-	<div class="range-slider">
+	<div class="track">
 		<div class="progress"></div>
 		<div class="thumb"></div>
 	</div>
@@ -23,7 +23,7 @@ const createSlider = (parent) => {
 	const sliderFragment = stringToFragment(sliderHtml);
 	parent.append(sliderFragment);
 	console.log(parent);
-	const track = parent.querySelector('.range-slider');
+	const track = parent.querySelector('.track');
 	const progress = parent.querySelector('.progress');
 
 	track.style.height = `${height}px`;
@@ -33,7 +33,7 @@ const createSlider = (parent) => {
 function rangeSlider(sliderParent) {
 	createSlider(sliderParent);
 
-	const track = sliderParent.querySelector('.range-slider');
+	const track = sliderParent.querySelector('.track');
 	const thumb = sliderParent.querySelector('.thumb');
 	const progress = sliderParent.querySelector('.progress');
 
