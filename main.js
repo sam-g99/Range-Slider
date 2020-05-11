@@ -2,7 +2,6 @@ const track = document.getElementById('track');
 const progress = document.getElementById('progress');
 const thumb = document.getElementById('thumb');
 
-const event = new Event('slider');
 function rangeSlider(track, thumb, progress) {
 	this.percentage = 0;
 
@@ -87,6 +86,9 @@ function rangeSlider(track, thumb, progress) {
 
 		this.percentage = percentagePositionToChange;
 
+		const event = new CustomEvent('slider', {
+			detail: percentagePositionToChange,
+		});
 		window.dispatchEvent(event);
 	};
 
@@ -120,10 +122,6 @@ function rangeSlider(track, thumb, progress) {
 const rangeSlider1 = new rangeSlider(track, thumb, progress);
 
 window.addEventListener('slider', (e) => {
-	const percentage = rangeSlider1.percentage;
-	document.getElementById('percentage').textContent = parseInt(
-		percentage,
-		10
-	);
-	document.getElementById('background').style.height = `${percentage}%`;
+	document.getElementById('percentage').textContent = parseInt(e.detail, 10);
+	document.getElementById('background').style.height = `${e.detail}%`;
 });
