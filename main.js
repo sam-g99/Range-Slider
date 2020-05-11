@@ -147,16 +147,16 @@ function rangeSlider(sliderParent) {
 		drag(e);
 		document.ontouchmove = drag;
 	});
+
+	sliderParent.addEventListener('touchend', (e) => {
+		if (e.touches.length == 0) {
+			document.ontouchmove = null;
+		}
+	});
 }
 
 document.addEventListener('mouseup', () => {
 	document.onmousemove = null;
-});
-
-document.addEventListener('touchend', (e) => {
-	if (!e.targetTouches[0]) {
-		document.ontouchmove = null;
-	}
 });
 
 sliders.forEach((s) => {
