@@ -2,8 +2,40 @@ const track = document.getElementById('track');
 const progress = document.getElementById('progress');
 const thumb = document.getElementById('thumb');
 
-function rangeSlider(track, thumb, progress) {
-	this.percentage = 0;
+const sliders = Array.from(document.querySelectorAll('.slider-container'));
+
+const stringToFragment = (html) =>
+	document.createRange().createContextualFragment(html);
+
+const sliderHtml = `
+	<div class="range-slider">
+		<div class="progress"></div>
+		<div class="thumb"></div>
+	</div>
+	<div>
+	<p id="percentage">0</p>
+</div>
+
+`;
+
+const createSlider = (parent) => {
+	const { height, progressColor } = parent.dataset;
+	const sliderFragment = stringToFragment(sliderHtml);
+	parent.append(sliderFragment);
+	console.log(parent);
+	const track = parent.querySelector('.range-slider');
+	const progress = parent.querySelector('.progress');
+
+	track.style.height = `${height}px`;
+	progress.style.background = progressColor;
+};
+
+function rangeSlider(sliderParent) {
+	createSlider(sliderParent);
+
+	const track = sliderParent.querySelector('.range-slider');
+	const thumb = sliderParent.querySelector('.thumb');
+	const progress = sliderParent.querySelector('.progress');
 
 	/* Thumb accounted for in track length */
 	const trackLength = track.offsetHeight - thumb.offsetHeight;
@@ -86,8 +118,14 @@ function rangeSlider(track, thumb, progress) {
 
 		this.percentage = percentagePositionToChange;
 
+		const { progressColor } = sliderParent.dataset;
+		const numberElement = sliderParent.querySelector('#percentage');
 		const event = new CustomEvent('slider', {
-			detail: percentagePositionToChange,
+			detail: {
+				percentage: percentagePositionToChange,
+				color: progressColor,
+				numberEl: numberElement,
+			},
 		});
 		window.dispatchEvent(event);
 	};
@@ -119,9 +157,16 @@ function rangeSlider(track, thumb, progress) {
 	});
 }
 
-const rangeSlider1 = new rangeSlider(track, thumb, progress);
+sliders.forEach((s) => {
+	new rangeSlider(s);
+});
 
 window.addEventListener('slider', (e) => {
-	document.getElementById('percentage').textContent = parseInt(e.detail, 10);
-	document.getElementById('background').style.height = `${e.detail}%`;
+	const background = document.getElementById('background');
+	const { percentage, color, numberEl } = e.detail;
+
+	numberEl.textContent = parseInt(percentage, 10);
+
+	background.style.background = color;
+	background.style.height = `${percentage}%`;
 });
