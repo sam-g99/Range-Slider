@@ -120,8 +120,10 @@ function rangeSlider(track, thumb, progress) {
 const rangeSlider1 = new rangeSlider(track, thumb, progress);
 
 window.addEventListener('slider', (e) => {
+	const percentage = rangeSlider1.percentage;
 	document.getElementById('percentage').textContent = parseInt(
-		rangeSlider1.percentage,
+		percentage,
 		10
 	);
+	document.getElementById('background').style.height = `${percentage}%`;
 });
