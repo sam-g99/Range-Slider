@@ -142,9 +142,10 @@ function rangeSlider(sliderParent) {
 		document.onmousemove = null;
 	});
 
-	document.addEventListener('touchend', () => {
-		document.ontouchmove = null;
-		alert('touch-ended');
+	document.addEventListener('touchend', (e) => {
+		if (!e.targetTouches[0]) {
+			document.ontouchmove = null;
+		}
 	});
 
 	track.addEventListener('mousedown', (e) => {
