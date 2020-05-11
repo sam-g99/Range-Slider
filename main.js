@@ -138,16 +138,6 @@ function rangeSlider(sliderParent) {
 		document.ontouchmove = drag;
 	});
 
-	document.addEventListener('mouseup', () => {
-		document.onmousemove = null;
-	});
-
-	document.addEventListener('touchend', (e) => {
-		if (!e.targetTouches[0]) {
-			document.ontouchmove = null;
-		}
-	});
-
 	track.addEventListener('mousedown', (e) => {
 		drag(e);
 		document.onmousemove = drag;
@@ -158,6 +148,16 @@ function rangeSlider(sliderParent) {
 		document.ontouchmove = drag;
 	});
 }
+
+document.addEventListener('mouseup', () => {
+	document.onmousemove = null;
+});
+
+document.addEventListener('touchend', (e) => {
+	if (!e.targetTouches[0]) {
+		document.ontouchmove = null;
+	}
+});
 
 sliders.forEach((s) => {
 	new rangeSlider(s);
